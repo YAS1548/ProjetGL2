@@ -23,7 +23,7 @@ public class Salle {
 	public int getNum() {
 		return num;
 	}
-	public int getCpacite() {
+	public int getCapacite() {
 		return capacite;
 	}
 	public String getType() {

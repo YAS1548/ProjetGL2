@@ -75,6 +75,28 @@ public class GestionSalles implements Subject{
         
 	}
 	
-	
+	public List<Salle> getSalles() {
+	    return salles;
+	}
+
+	public List<Reservation> getReservations() {
+	    return reservations;
+	}
+
+	public Salle trouverSalle(int num) {
+	    for (Salle s : salles) {
+	        if (s.getNum() == num) return s;
+	    }
+	    return null;
+	}
+
+	public void ajouterReservation(Reservation r) {
+	    reservations.add(r);
+	}
+
+	public void supprimerReservation(Reservation r) {
+	    reservations.remove(r);
+	}
+
 
 }
