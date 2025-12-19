@@ -1,8 +1,10 @@
 package model;
 
+import observer.Observer;
+import observer.Subject;
+
 import java.util.*;
 
-import observer.*;
 
 public class GestionSalles implements Subject {
 
