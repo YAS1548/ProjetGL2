@@ -9,6 +9,7 @@ public class main {
 
 	 public static void main(String[] args) {
 
+
 	        ConsoleView view = new ConsoleView();
 	        ReservationController controller = new ReservationController(view);
 
@@ -28,11 +29,14 @@ public class main {
 	                    controller.reserverSalle();
 	                    break;
 	                case 4:
-	                    controller.annulerReservation();
+						controller.afficherReservations();
 	                    break;
 	                case 5:
-	                    controller.afficherReservations();
+						controller.annulerReservation();
 	                    break;
+					case 6:
+						controller.PrioriteStrategy();
+						break;
 	                case 0:
 	                    view.afficherMessage("Au revoir !!!!!");
 	                    break;

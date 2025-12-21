@@ -3,6 +3,7 @@ import java.util.*;
 import observer.Observer;
 import observer.Subject;
 import strategy.PolitiqueReservationStrategy;
+import strategy.PrioriteEnseignantStrategy;
 
 
 public class GestionSalles implements Subject{
@@ -14,7 +15,9 @@ public class GestionSalles implements Subject{
     private PolitiqueReservationStrategy strategy;
 
 
-    private GestionSalles() {}
+    private GestionSalles() {
+		this.strategy = new PrioriteEnseignantStrategy();
+	}
     
     public static GestionSalles getInstance() {
     	if(instance==null) {
@@ -25,7 +28,9 @@ public class GestionSalles implements Subject{
 
 	@Override
 	public void addObserver(Observer o) {
-		observers.add(o);
+		if (!observers.contains(o)) {
+			observers.add(o);
+		}
 	}
 
 	@Override
@@ -39,6 +44,7 @@ public class GestionSalles implements Subject{
 			o.notifier(message);
 		}
 	}
+
 	
 	public void setStrategy(PolitiqueReservationStrategy strategy) {
 		this.strategy=strategy;
@@ -49,32 +55,41 @@ public class GestionSalles implements Subject{
 	    notifyObserver("Nouvelle salle ajoutée (ID : " + s.getNum() + ")");
 
 	}
-	
-	public void reserverSalle(Reservation r) {
-		for(Reservation existante : reservations) {
-			boolean memeSalle=r.getSalle().getNum()==existante.getSalle().getNum();
-			boolean memeDate = r.getDate().equals(existante.getDate());
-			boolean chevauchement =r.getHeure() < existante.getHeure() + existante.getDuree()
-                                   && existante.getHeure() < r.getHeure() + r.getDuree(); 
-			
-			if(memeSalle && memeDate && chevauchement) {
-				if(strategy.estPrioritaire(r.getUser(), existante.getUser())) {
-					reservations.remove(existante);
+
+	public boolean reserverSalle(Reservation r) {
+		if (strategy == null) {
+			System.out.println("Warning: No reservation strategy defined.");
+		}
+
+		for (int i = 0; i < reservations.size(); i++) {
+			Reservation existante = reservations.get(i);
+
+			boolean sameSalle = r.getSalle().getNum() == existante.getSalle().getNum();
+			boolean overlap = r.getHeure() < (existante.getHeure() + existante.getDuree())
+					&& existante.getHeure() < (r.getHeure() + r.getDuree());
+
+			if (sameSalle && overlap) {
+
+				if (strategy != null && strategy.estPrioritaire(r.getUser(), existante.getUser())) {
+					reservations.remove(i);
 					reservations.add(r);
-					
-					existante.getUser().notifier("Votre réservation a été annulée (priorité)");
-					r.getUser().notifier("Réservation acceptée (prioritaire)");	
-				}else {
-					 r.getUser().notifier("Réservation refusée (conflit)");
+					existante.getUser().notifier("Votre réservation a été annulée (priorité supérieure)");
+					r.getUser().notifier("Réservation acceptée (prioritaire)");
+					return true;
+				} else {
+
+					r.getUser().notifier("Réservation refusée (conflit avec une réservation existante)");
+					return false;
 				}
-				return;
 			}
 		}
+
 		reservations.add(r);
-        r.getUser().notifier("Réservation acceptée");
-        
+		r.getUser().notifier("Réservation acceptée");
+		return true;
 	}
-	
+
+
 	public List<Salle> getSalles() {
 	    return salles;
 	}
@@ -98,5 +113,7 @@ public class GestionSalles implements Subject{
 	    reservations.remove(r);
 	}
 
-
+	public PolitiqueReservationStrategy getStrategy() {
+		return strategy;
+	}
 }

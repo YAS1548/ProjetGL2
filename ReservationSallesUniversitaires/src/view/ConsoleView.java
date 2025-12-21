@@ -11,8 +11,9 @@ public class ConsoleView {
         System.out.println("1. Ajouter une salle");
         System.out.println("2. Afficher les salles");
         System.out.println("3. Reserver une salle");
-        System.out.println("4. Annuler une reservation");
-        System.out.println("5. Afficher les reservations");
+        System.out.println("4. Afficher les reservations");
+        System.out.println("5. Annuler une reservation");
+        System.out.println("6. Type de Priorite");
         System.out.println("0. Quitter");
         System.out.print("Votre choix : ");
     }
