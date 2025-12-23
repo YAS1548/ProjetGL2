@@ -32,15 +32,6 @@ public class GroupeEquipement extends Equipement {
 	              e.afficher();
 	          }
 	    }
-	    @Override
-	    public String toString() {
-	        StringBuilder sb = new StringBuilder("Pack [");
-	        for (int i = 0; i < equipements.size(); i++) {
-	            sb.append(equipements.get(i).toString());
-	            if (i < equipements.size() - 1) sb.append(", ");
-	        }
-	        sb.append("]");
-	        return sb.toString();
-	    }
+	  
 
 }
