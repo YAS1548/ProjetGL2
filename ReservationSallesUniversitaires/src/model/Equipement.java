@@ -1,14 +1,8 @@
 package model;
 
+public abstract class Equipement {
+	
+	   public abstract boolean estDisponible();
+	    public abstract void afficher();
 
-public class Equipement {
-	private String nom;
-	
-	public Equipement() {
-		this.nom=nom;	}
-	
-	public String getNom() {
-		return nom;
-	}
-	
 }
