@@ -20,7 +20,8 @@ public class GroupeEquipement extends Equipement {
 	    @Override
 	    public boolean estDisponible() {
 	        for (Equipement e : equipements) {
-	            if (!e.estDisponible()) return false;
+	            if (!e.estDisponible())
+	            	return false;
 	        }
 	        return true;
 	    }

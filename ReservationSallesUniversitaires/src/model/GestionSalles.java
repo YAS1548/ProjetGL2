@@ -103,9 +103,6 @@ public class GestionSalles implements Subject {
 		return null;
 	}
 
-	public void ajouterReservation(Reservation r) {
-		reservations.add(r);
-	}
 
 	public void supprimerReservation(Reservation r) {
 		reservations.remove(r);
